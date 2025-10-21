@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario Festival</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(120deg, #fdfbfb, #ebedee);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 450px;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(-20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #FF6B6B;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #ff4b4b;
+    }
+
+    #comunidadDiv {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<form id="festivalForm">
+    <h2>Registro Festival</h2>
+    
+    <label for="nombre">¿Cuál es tu nombre?</label>
+    <input type="text" id="nombre" name="nombre" required>
+    
+    <label for="edad">¿Cuál es tu edad?</label>
+    <input type="number" id="edad" name="edad" required min="1">
+    
+    <label>¿Perteneces a alguna comunidad?</label>
+    <select id="comunidadPregunta" required>
+        <option value="">Selecciona</option>
+        <option value="si">Sí</option>
+        <option value="no">No</option>
+    </select>
+    
+    <div id="comunidadDiv">
+        <label for="comunidad">¿Cuál es la comunidad a la que perteneces?</label>
+        <input type="text" id="comunidad" name="comunidad">
+    </div>
+    
+    <label for="santo">¿De qué santo te vas a disfrazar?</label>
+    <input type="text" id="santo" name="santo" required>
+    
+    <button type="submit">Enviar</button>
+</form>
+
+<script>
+const comunidadPregunta = document.getElementById('comunidadPregunta');
+const comunidadDiv = document.getElementById('comunidadDiv');
+
+comunidadPregunta.addEventListener('change', function() {
+    if (this.value === 'si') {
+        comunidadDiv.style.display = 'block';
+        document.getElementById('comunidad').required = true;
+    } else {
+        comunidadDiv.style.display = 'none';
+        document.getElementById('comunidad').required = false;
+    }
+});
+
+document.getElementById('festivalForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById('nombre').value.trim();
+    const edad = document.getElementById('edad').value.trim();
+    const comunidad = document.getElementById('comunidad').value.trim();
+    const santo = document.getElementById('santo').value.trim();
+    
+    if (!nombre || !edad || !santo) {
+        alert("Por favor completa todos los campos obligatorios.");
+        return;
+    }
+
+    let mensaje = ¡Registro enviado con éxito!\n\nNombre: ${nombre}\nEdad: ${edad};
+    if (comunidadPregunta.value === 'si') {
+        mensaje += \nComunidad: ${comunidad};
+    }
+    mensaje += \nSanto: ${santo};
+
+    alert(mensaje);
+    
+    this.reset();
+    comunidadDiv.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
